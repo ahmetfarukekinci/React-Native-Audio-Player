@@ -1,0 +1,32 @@
+import { StyleSheet, ColorPropType } from 'react-native';
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import { RFValue } from 'react-native-responsive-fontsize';
+
+type ColorType = {
+	[key: string]: string;
+};
+export const colors: ColorType = {
+	background: '#09121C'
+};
+
+const referenceWidth = 376;
+const referenceHeight = 812;
+
+export const wp = (width: number) => {
+	const givenWidth = width * 100 / referenceWidth;
+	const result = widthPercentageToDP(givenWidth);
+	return result;
+};
+
+export const hp = (height: number) => {
+	const givenHeight = height * 100 / referenceHeight;
+	const result = heightPercentageToDP(givenHeight);
+	return result;
+};
+export const commonStyle = StyleSheet.create({
+	row: {
+		flexDirection: 'row',
+		alignItems: 'center'
+	}
+});
+export const fs = (fontSize: number): number => RFValue(fontSize, referenceHeight);
