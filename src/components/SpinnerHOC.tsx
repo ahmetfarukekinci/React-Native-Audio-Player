@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import {colors} from '../styles'
 interface ISpinnerHoc {
 	loading: boolean;
 	children: React.ReactChild;
@@ -15,7 +16,7 @@ const SpinnerHOC = (WrappedComponent: React.ElementType) => ({ loading, children
 						{ backgroundColor: 'rgba(0, 0, 0, 0.7)', justifyContent: 'center' }
 					]}
 				>
-					<ActivityIndicator size="large" color="#fff" />
+					<ActivityIndicator size="large" color={colors.white} />
 				</View>
 			)}
 		</View>

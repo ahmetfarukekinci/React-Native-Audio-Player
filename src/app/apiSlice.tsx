@@ -6,7 +6,6 @@ export const apiSlice = createApi({
 	baseQuery: fetchBaseQuery({
 		baseUrl: 'https://nox-podcast-api.vercel.app/',
 		prepareHeaders: async (headers, { getState }) => {
-			// console.log('getState', getState);
 			const token = await SecureStore.getItemAsync('access_token');
 			if (token) {
 				headers.set('Authorization', `Bearer ${token}`);

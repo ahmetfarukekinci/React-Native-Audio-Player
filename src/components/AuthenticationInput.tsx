@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput, TextInputProps, ViewStyle, View, StyleSheet, StyleProp, Text } from 'react-native';
-import { fs, wp, hp } from '../styles';
+import { fs, wp, hp,colors } from '../styles';
 import { SvgXml } from 'react-native-svg';
 import Secur from '../../assets/icons/Secur.svg';
 import Mail from '../../assets/icons/Basic.svg';
@@ -26,7 +26,7 @@ const AuthenticationInput: React.FC<AuthenticationInputProps> = ({
 		<View style={{ width: wp(276), alignItems: 'center' }}>
 			<View style={[ styles.container, style ]}>
 				<View style={styles.iconWrapper}>{icon}</View>
-				<TextInput placeholderTextColor="#898F97" style={styles.input} {...props} />
+				<TextInput placeholderTextColor={colors.gray1} style={styles.input} {...props} />
 			</View>
 			{error && touched && <Text style={styles.errorText}>{error}</Text>}
 		</View>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 	},
 	errorText: {
 		fontSize: fs(13),
-		color: 'white',
+		color: colors.white,
 		marginTop: hp(3)
 	}
 });

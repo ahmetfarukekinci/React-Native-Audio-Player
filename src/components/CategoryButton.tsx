@@ -28,8 +28,8 @@ const CategoryButton: React.FC<ICategoryButton> = ({ icon, isActive, title, ...p
 						styles.text,
 						{
 							color:
-								!isActive ? '#898F97' :
-								'#ffff'
+								!isActive ? colors.gray1 :
+								colors.white
 						}
 					]}
 				>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	text: {
-		color: '#898F97',
+		color: colors.gray1,
 		fontSize: fs(12)
 	}
 });

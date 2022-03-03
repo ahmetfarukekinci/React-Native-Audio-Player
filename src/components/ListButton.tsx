@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 	container: {
 		width: wp(309),
 		height: hp(180),
-		backgroundColor: '#010304',
+		backgroundColor: colors.darkBlue,
 		borderRadius: fs(24),
 		borderBottomRightRadius: 0,
 		paddingTop: hp(25),

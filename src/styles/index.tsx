@@ -14,6 +14,7 @@ export const colors = {
   black: "#000000",
   darkBlue: "#010304",
   gray1: "#898F97",
+  sliderColor:'#3369FF'
 };
 
 const referenceWidth = 376;

@@ -1,10 +1,13 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps, Text } from 'react-native';
-import { fs, wp, hp } from '../styles';
-const AuthenticationButton: React.FC<TouchableOpacityProps> = ({ ...props }) => {
+import { fs, wp, hp, colors } from '../styles';
+interface IAuthenticationButton extends TouchableOpacityProps {
+	text: string;
+}
+const AuthenticationButton: React.FC<IAuthenticationButton> = ({ text, ...props }) => {
 	return (
 		<TouchableOpacity {...props} style={[ styles.container, props.style ]}>
-			<Text style={styles.text}>Log In</Text>
+			<Text style={styles.text}>{text}</Text>
 		</TouchableOpacity>
 	);
 };
@@ -16,7 +19,7 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: '#3369FF',
+		backgroundColor: colors.sliderColor,
 		borderRadius: fs(99),
 		shadowColor: 'rgb(51, 105, 255)',
 		shadowOffset: {
