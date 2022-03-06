@@ -6,6 +6,7 @@ It is a basic example of an expo-av library which includes many other features.
 <img style="width: 200px; padding: 6px" src='./assets/images/2.gif'>
 <img style="width: 200px; padding: 6px" src='./assets/images/3.gif'>
 </div>
+
 ## Technologies
 
 - React Navigation V6
