@@ -6,7 +6,7 @@ It is a basic example of an expo-av library which includes many other features.
 <img style="width: 200px; padding: 6px" src='./assets/images/2.gif'>
 <img style="width: 200px; padding: 6px" src='./assets/images/3.gif'>
 </div>
-## Technologies 
+## Technologies
 
 - React Navigation V6
 - Redux Toolkit
@@ -14,7 +14,7 @@ It is a basic example of an expo-av library which includes many other features.
 - Formik & Yup
 - TypeScript
 
-## Features 
+## Features
 
 - Authentication flow with React Navigation, Redux Toolkit, Expo Secure Store 
 - Form validation with Formik and Yup
