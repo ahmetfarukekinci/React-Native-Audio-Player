@@ -9,28 +9,37 @@ import ErrorModalScreen from '../screens/ErrorModal';
 import * as SecureStore from 'expo-secure-store';
 import AppLoading from 'expo-app-loading';
 import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
+import { RootState, useAppDispatch } from '../app/store';
+import{setAccessToken} from '../screens/mainSlice'; 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 const Navigator = () => {
+	const dispatch = useAppDispatch(); 
 	const [ loading, setLoading ] = React.useState<boolean>(true);
 	const [ isTokenValid, setIsTokenValid ] = React.useState<boolean>(false);
 	const access_token = useSelector<RootState>((state) => state.main.access_token);
-	const getToken = async () => {
-		const token = await SecureStore.getItemAsync('access_token');
-		if (token) {
-			setIsTokenValid(true);
-			setLoading(false);
-		} else {
-			setLoading(false);
-			setIsTokenValid(false);
+	const checkAccessToken =async()=>{
+		if(access_token!==''){
+			console.log('buraya')
+			setIsTokenValid(true); 
+			setLoading(false); 
+		}else{
+			const token = await SecureStore.getItemAsync('access_token');
+			if (token) {
+				dispatch(setAccessToken(token)); 
+				setIsTokenValid(true);
+				setLoading(false);
+			} else {
+				setLoading(false);
+				setIsTokenValid(false);
+			}
 		}
 	};
 	React.useEffect(
 		() => {
-			getToken();
+			checkAccessToken();
 		},
-		[ isTokenValid ]
+		[ access_token ]
 	);
 	if (loading) {
 		return <AppLoading />;
@@ -39,7 +48,7 @@ const Navigator = () => {
 		<NavigationContainer>
 			<RootStack.Navigator screenOptions={{ headerShown: false }}>
 				{
-					!isTokenValid || !access_token ? <React.Fragment>
+					!isTokenValid ? <React.Fragment>
 						<RootStack.Screen name="LogInScreen" component={LogInScreen} />
 						<RootStack.Group screenOptions={{ presentation: 'fullScreenModal' }}>
 							<RootStack.Screen name="ErrorModalScreen" component={ErrorModalScreen} />
