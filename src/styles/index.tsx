@@ -1,20 +1,17 @@
-import { StyleSheet, ColorPropType } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from "react-native-responsive-screen";
 import { RFValue } from "react-native-responsive-fontsize";
 
-type ColorType = {
-  [key: string]: string;
-};
 export const colors = {
   background: "#09121C",
   white: "#ffffff",
   black: "#000000",
   darkBlue: "#010304",
   gray1: "#898F97",
-  sliderColor:'#3369FF'
+  sliderColor: "#3369FF",
 };
 
 const referenceWidth = 376;

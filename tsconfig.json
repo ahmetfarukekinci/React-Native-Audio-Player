@@ -1,6 +1,15 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components": ["./src/components/index.tsx"],
+      "@styles": ["./src/styles/index.tsx"],
+      "@navigation": ["./src/navigation/index.tsx"],
+      "@store/*": ["./src/app/*"],
+      "@mainSlice": ["./src/screens/mainSlice.tsx"],
+      "@icons": ["./assets/icons/index.tsx"]
+    }
   }
 }
