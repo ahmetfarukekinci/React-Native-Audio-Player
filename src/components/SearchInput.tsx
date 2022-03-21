@@ -7,8 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { fs, wp, hp, colors } from "@styles";
-import { SvgXml } from "react-native-svg";
-import icons from "@icons";
+import { Search } from "@icons";
 const SearchInput: React.FC<TextInputProps> = ({ ...props }) => {
   const inputRef = useRef<TextInput>(null);
   return (
@@ -24,7 +23,7 @@ const SearchInput: React.FC<TextInputProps> = ({ ...props }) => {
           autoCompleteType="off"
           textContentType="none"
         ></TextInput>
-        <SvgXml width={fs(20)} height={hp(20)} xml={icons.SearchIcon} />
+        <Search width={fs(20)} height={hp(20)} />
       </View>
     </TouchableWithoutFeedback>
   );

@@ -9,8 +9,7 @@ import {
   Text,
 } from "react-native";
 import { fs, wp, hp, colors } from "@styles";
-import { SvgXml } from "react-native-svg";
-import icons from "@icons";
+import { Secur, Basic } from "@icons";
 type iconType = "mail" | "password";
 interface AuthenticationInputProps extends TextInputProps {
   iconType: iconType;
@@ -25,12 +24,7 @@ const AuthenticationInput: React.FC<AuthenticationInputProps> = ({
   touched,
   ...props
 }: AuthenticationInputProps) => {
-  const icon =
-    iconType === "password" ? (
-      <SvgXml width={fs(14)} height={fs(14)} xml={icons.SecureIcon} />
-    ) : (
-      <SvgXml width={fs(14)} height={fs(14)} xml={icons.BasicIcon} />
-    );
+  const icon = iconType === "password" ? <Secur /> : <Basic />;
   return (
     <View style={{ width: wp(276), alignItems: "center" }}>
       <View style={[styles.container, style]}>

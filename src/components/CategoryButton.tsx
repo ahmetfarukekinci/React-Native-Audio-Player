@@ -10,13 +10,13 @@ import { SvgProps, SvgXml } from "react-native-svg";
 import { fs, wp, hp, colors } from "@styles";
 interface ICategoryButton extends TouchableOpacityProps {
   isActive: boolean;
-  icon?: React.FC<SvgProps>;
+  icon?: React.ElementType;
   title: string;
 }
 const CategoryButton: React.FC<ICategoryButton> = ({
-  icon,
   isActive,
   title,
+  children,
   ...props
 }) => {
   return (
@@ -30,7 +30,7 @@ const CategoryButton: React.FC<ICategoryButton> = ({
             },
           ]}
         >
-          <SvgXml width={fs(22)} height={hp(22)} xml={icon} />
+          {children}
         </View>
         <Text
           style={[

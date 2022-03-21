@@ -5,9 +5,8 @@ import { Audio, AVPlaybackStatus } from "expo-av";
 import Slider from "@react-native-community/slider";
 import { fs, wp, hp, colors } from "@styles";
 import { SpinnerHOC } from "@components";
-import { SvgXml } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
-import icons from "@icons";
+import { Back, BackIcon, Forward, Like, Unlike } from "@icons";
 const SpinnerView = SpinnerHOC(View);
 export default function PlayerScreen({
   navigation,
@@ -171,7 +170,7 @@ export default function PlayerScreen({
           style={{ marginLeft: wp(32), width: fs(20), height: fs(20) }}
           onPress={() => navigation.goBack()}
         >
-          <SvgXml width={fs(18)} height={hp(18)} xml={icons.BackIcon} />
+          <BackIcon width={fs(18)} height={hp(18)} />
         </TouchableOpacity>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.author}>{author}</Text>
@@ -180,7 +179,7 @@ export default function PlayerScreen({
             style={{ width: fs(20), height: fs(20) }}
             onPress={() => goTenSecondForwardOrBackward(-10000)}
           >
-            <SvgXml width={fs(18)} height={hp(18)} xml={icons.BackwardIcon} />
+            <Back width={fs(18)} height={hp(18)} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.playPauseButton}
@@ -196,7 +195,7 @@ export default function PlayerScreen({
             style={{ width: fs(20), height: fs(20) }}
             onPress={() => goTenSecondForwardOrBackward(10000)}
           >
-            <SvgXml width={fs(18)} height={hp(18)} xml={icons.ForwardIcon} />
+            <Forward width={fs(18)} height={hp(18)} />
           </TouchableOpacity>
         </View>
         <View style={styles.bottomWrapper}>
@@ -217,7 +216,7 @@ export default function PlayerScreen({
             }}
           >
             <View style={styles.row}>
-              <SvgXml style={{ marginRight: wp(15) }} xml={icons.LikeIcon} />
+              <Like style={{ marginRight: wp(15) }} />
               <Text style={styles.likeText}>{likes}</Text>
             </View>
             <View>
@@ -230,7 +229,7 @@ export default function PlayerScreen({
             </View>
             <View style={styles.row}>
               <Text style={styles.likeText}>{dislikes}</Text>
-              <SvgXml style={{ marginLeft: wp(15) }} xml={icons.UnlikeIcon} />
+              <Unlike style={{ marginLeft: wp(15) }} />
             </View>
           </View>
           <View style={styles.divider} />

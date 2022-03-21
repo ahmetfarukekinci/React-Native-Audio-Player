@@ -8,11 +8,9 @@ import {
   SpinnerHOC,
 } from "@components";
 import { hp, wp, fs, colors } from "@styles";
-import { SvgProps, SvgXml } from "react-native-svg";
 import { useGetPodcastListMutation } from "@store/apiSlice";
 import { debounce } from "lodash";
-import icons from "@icons";
-import * as SecureStore from "expo-secure-store"; // TODO sil
+import { Art, Technology, General, Entertainment, Logo } from "@icons";
 const SpinnerView = SpinnerHOC(View);
 type CategoryParamType =
   | "art"
@@ -24,31 +22,31 @@ interface ICategoryButton {
   id: string;
   title: string;
   param: CategoryParamType;
-  icon?: React.FC<SvgProps>;
+  Icon?: JSX.Element;
 }
 const CategoryButtons: ICategoryButton[] = [
   {
     id: "1",
     param: "art",
-    icon: icons.ArtIcon,
+    Icon: <Art />,
     title: "Art",
   },
   {
     id: "2",
     param: "technology",
-    icon: icons.TechnologyIcon,
+    Icon: <Technology />,
     title: "Technology",
   },
   {
     id: "3",
     param: "general",
-    icon: icons.GeneralIcon,
+    Icon: <General />,
     title: "General",
   },
   {
     id: "4",
     param: "entertainment",
-    icon: icons.EntertainmentIcon,
+    Icon: <Entertainment />,
     title: "Entertainment",
   },
 ];
@@ -97,18 +95,11 @@ export default function ListScreen({
   return (
     <SpinnerView loading={isLoading}>
       <View style={styles.container}>
-        <SvgXml width={fs(90)} height={hp(42)} xml={icons.Logo} />
+        <Logo />
         <FlatList
           ListHeaderComponent={
             <View>
-              <Text
-                onPress={async () =>
-                  SecureStore.deleteItemAsync("access_token")
-                }
-                style={styles.header}
-              >
-                Browse
-              </Text>
+              <Text style={styles.header}>Browse</Text>
               <Input
                 onChangeText={(text) =>
                   setQuery((prev) => {
@@ -124,10 +115,11 @@ export default function ListScreen({
                   renderItem={({ item, index }) => (
                     <CategoryButton
                       isActive={categoryIndex === index}
-                      icon={item.icon}
                       title={item.title}
                       onPress={() => categorButtonOnPressed(index, item)}
-                    />
+                    >
+                      {item.Icon}
+                    </CategoryButton>
                   )}
                   horizontal
                   showsHorizontalScrollIndicator={false}
@@ -136,7 +128,6 @@ export default function ListScreen({
               </View>
             </View>
           }
-          style={{ flex: 1 }}
           data={list}
           keyExtractor={(item, index) => JSON.stringify(index)}
           scrollsToTop

@@ -18,13 +18,12 @@ import {
 import { hp, wp, fs, colors } from "@styles";
 import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
-import { SvgXml } from "react-native-svg";
 import * as Yup from "yup";
 import { useLogInMutation } from "@store/apiSlice";
 import * as SecureStore from "expo-secure-store";
 import { useAppDispatch } from "../app/store";
 import { setAccessToken } from "@mainSlice";
-import icons from "@icons";
+import { Logo } from "@icons";
 export interface Values {
   email: string;
   password: string;
@@ -87,11 +86,7 @@ export default function LogInScreen({
                       start={{ x: 0, y: 0 }}
                       end={{ x: 0, y: 1 }}
                     >
-                      <SvgXml
-                        width={fs(156)}
-                        height={hp(72)}
-                        xml={icons.Logo}
-                      />
+                      <Logo width={fs(156)} height={hp(72)} />
                       <Text style={styles.text}>
                         Episodic series of digital audio.
                       </Text>
