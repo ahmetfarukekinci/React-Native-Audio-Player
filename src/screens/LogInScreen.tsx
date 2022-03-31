@@ -49,11 +49,11 @@ export default function LogInScreen({
   const onSubmit = async (values: Values) => {
     try {
       const response = await logIn(values).unwrap();
+      console.log("response", response);
       const { access_token } = response;
       await SecureStore.setItemAsync("access_token", access_token);
       dispatch(setAccessToken(access_token));
     } catch (error) {
-      console.log("error", error);
       navigate("ErrorModalScreen", { text: "Mail or Password is wrong!" });
     }
   };
@@ -100,6 +100,7 @@ export default function LogInScreen({
                         onBlur={handleBlur("email")}
                         error={errors.email}
                         touched={touched.email}
+                        testID="emailInput"
                       />
                       <Input
                         style={{ marginTop: hp(16) }}
@@ -112,8 +113,10 @@ export default function LogInScreen({
                         onBlur={handleBlur("password")}
                         error={errors.password}
                         touched={touched.password}
+                        testID="passwordInput"
                       />
                       <Button
+                        accessibilityRole="button"
                         text="Log In"
                         onPress={() => handleSubmit()}
                         style={{ marginTop: hp(30) }}

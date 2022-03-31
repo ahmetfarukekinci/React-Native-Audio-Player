@@ -13,7 +13,9 @@ export default function ErrorModalScreen({
   return (
     <View style={styles.container}>
       <AntDesign name="frowno" size={fs(80)} color={colors.white} />
-      <Text style={styles.title}>Something went wrong...</Text>
+      <Text accessibilityRole="alert" style={styles.title}>
+        Something went wrong...
+      </Text>
       <Text style={styles.content}>{text}</Text>
       <Button text="Go Back" onPress={() => navigation.goBack()} />
     </View>

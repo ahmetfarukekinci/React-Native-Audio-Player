@@ -35,7 +35,11 @@ const AuthenticationInput: React.FC<AuthenticationInputProps> = ({
           {...props}
         />
       </View>
-      {error && touched && <Text style={styles.errorText}>{error}</Text>}
+      {error && touched && (
+        <Text accessibilityRole="alert" style={styles.errorText}>
+          {error}
+        </Text>
+      )}
     </View>
   );
 };

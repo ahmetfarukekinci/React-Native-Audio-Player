@@ -1,9 +1,25 @@
-// import { server } from "./src/mocks/server";
+import { server } from "./mocks/server";
 import "@testing-library/jest-native";
-// // Establish API mocking before all tests.
-// beforeAll(() => server.listen());
-// // Reset any request handlers that we may add during the tests,
-// // so they don't affect other tests.
-// afterEach(() => server.resetHandlers());
-// // Clean up after the tests are finished.
-// afterAll(() => server.close());
+// Establish API mocking before all tests.
+//@ts-ignore
+// const nodeFetch = require("node-fetch");
+// //@ts-ignore
+// global.fetch = nodeFetch;
+// //@ts-ignore
+// global.Request = nodeFetch.Request;
+
+import fetch, { Headers, Request, Response } from "node-fetch";
+import AbortController from "abort-controller";
+global.fetch = fetch as any;
+global.Headers = Headers as any;
+global.Request = Request as any;
+global.Response = Response as any;
+global.AbortController = AbortController;
+beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+process.on("unhandledRejection", (error) => {
+  // eslint-disable-next-line no-undef
+  fail(error);
+});

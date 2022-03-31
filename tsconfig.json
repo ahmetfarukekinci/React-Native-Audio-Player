@@ -9,7 +9,8 @@
       "@navigation": ["./src/navigation/index.tsx"],
       "@store/*": ["./src/app/*"],
       "@mainSlice": ["./src/screens/mainSlice.tsx"],
-      "@icons": ["./assets/icons/index.ts"]
+      "@icons": ["./assets/icons/index.ts"],
+      "@test": ["./jest/test-utils.tsx"]
     }
   }
 }
