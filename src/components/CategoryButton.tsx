@@ -1,24 +1,11 @@
 import React from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  TouchableOpacityProps,
-  Text,
-  View,
-} from "react-native";
-import { SvgProps, SvgXml } from "react-native-svg";
+import { StyleSheet, TouchableOpacity, TouchableOpacityProps, Text, View } from "react-native";
 import { fs, wp, hp, colors } from "@styles";
 interface ICategoryButton extends TouchableOpacityProps {
   isActive: boolean;
-  icon?: React.ElementType;
   title: string;
 }
-const CategoryButton: React.FC<ICategoryButton> = ({
-  isActive,
-  title,
-  children,
-  ...props
-}) => {
+const CategoryButton: React.FC<ICategoryButton> = ({ isActive, title, children, ...props }) => {
   return (
     <TouchableOpacity {...props}>
       <View style={styles.container}>
@@ -26,7 +13,7 @@ const CategoryButton: React.FC<ICategoryButton> = ({
           style={[
             styles.circle,
             {
-              backgroundColor: !isActive ? "#19232F" : "gray",
+              backgroundColor: !isActive ? colors.activeBlue : colors.gray,
             },
           ]}
         >

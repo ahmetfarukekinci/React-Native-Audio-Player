@@ -10,7 +10,9 @@
       "@store/*": ["./src/app/*"],
       "@mainSlice": ["./src/screens/mainSlice.tsx"],
       "@icons": ["./assets/icons/index.ts"],
-      "@test": ["./jest/test-utils.tsx"]
+      "@test": ["./jest/test-utils.tsx"],
+      "@constants": ["./src/constants/index.tsx"],
+      "@types": ["./src/types/index.tsx"]
     }
   }
 }

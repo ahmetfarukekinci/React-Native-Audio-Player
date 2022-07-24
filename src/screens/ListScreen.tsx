@@ -1,136 +1,100 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import { RootStackScreenProps, IPlayerScreeenParams } from "@navigation";
-import {
-  SearchInput as Input,
-  CategoryButton,
-  ListButton,
-  SpinnerHOC,
-} from "@components";
+import { SearchInput, CategoryButton, ListButton, SpinnerHOC, CategorySelectionButtons } from "@components";
 import { hp, wp, fs, colors } from "@styles";
 import { useGetPodcastListMutation } from "@store/apiSlice";
 import { debounce } from "lodash";
-import { Art, Technology, General, Entertainment, Logo } from "@icons";
+import { Logo } from "@icons";
+import { ICategoryButton, CategoryParamType } from "@types";
+import { CategoryButtonsListData } from "@constants";
+
 const SpinnerView = SpinnerHOC(View);
-type CategoryParamType =
-  | "art"
-  | "technology"
-  | "general"
-  | "entertainment"
-  | "";
-interface ICategoryButton {
-  id: string;
-  title: string;
-  param: CategoryParamType;
-  Icon?: JSX.Element;
-}
-const CategoryButtons: ICategoryButton[] = [
-  {
-    id: "1",
-    param: "art",
-    Icon: <Art />,
-    title: "Art",
-  },
-  {
-    id: "2",
-    param: "technology",
-    Icon: <Technology />,
-    title: "Technology",
-  },
-  {
-    id: "3",
-    param: "general",
-    Icon: <General />,
-    title: "General",
-  },
-  {
-    id: "4",
-    param: "entertainment",
-    Icon: <Entertainment />,
-    title: "Entertainment",
-  },
-];
-export default function ListScreen({
-  navigation,
-}: RootStackScreenProps<"ListScreen">) {
-  const [getPodcastList, { isLoading }] = useGetPodcastListMutation();
+
+export default function ListScreen({ navigation }: RootStackScreenProps<"ListScreen">) {
+  const [getPodcastList, { isLoading, isSuccess }] = useGetPodcastListMutation();
   const [list, setList] = useState<IPlayerScreeenParams[]>([]);
   const [query, setQuery] = useState<string>("");
-  const [categoryIndex, setCategoryIndex] = useState<number | undefined>(
-    undefined
-  );
-  const getList = async (queryText: string) => {
-    try {
-      const response: IPlayerScreeenParams[] = await getPodcastList(
-        queryText
-      ).unwrap();
-      setList(response);
-    } catch (error) {
-      console.log("error", error);
-      navigation.navigate("ErrorModalScreen", {
-        text: "We could not access the list now. Please try again!",
-      });
-    }
-  };
+  const [activeCategory, setActiveCategory] = useState<{ index: number | undefined; param: CategoryParamType }>({
+    index: undefined,
+    param: undefined,
+  });
+  const [searchInputText, setSearchInputText] = useState<string>("");
+  const firstMount = useRef<boolean>(true);
+  const flatlistRef = useRef<FlatList>(null);
   useEffect(() => {
-    getList("");
-  }, []);
-  const debouncedSearch = debounce((text: string, category?: string) => {
-    category
-      ? getList(`text=${text}&category=${category}`)
-      : getList(`text=${text}`);
-  }, 500);
-  const categorButtonOnPressed = (
-    index: number,
-    item: ICategoryButton
-  ): void => {
-    if (categoryIndex === index) {
-      setCategoryIndex(undefined);
-      debouncedSearch(query, "");
-    } else {
-      setCategoryIndex(index);
-      debouncedSearch(query, item.param);
+    const promisedGetPodcastList = getPodcastList(query);
+    promisedGetPodcastList
+      .unwrap()
+      .then((data) => {
+        setList(data);
+      })
+      .catch(() => {
+        navigation.navigate("ErrorModalScreen", {
+          text: "We could not access the list now. Please try again!",
+        });
+      });
+
+    () => {
+      promisedGetPodcastList.abort();
+      firstMount.current = false;
+    };
+  }, [query]);
+
+  useEffect(() => {
+    if (!firstMount.current) {
+      debouncedSearch();
     }
+    firstMount.current = false;
+  }, [searchInputText, activeCategory]);
+
+  const debouncedSearch = useCallback(
+    debounce(() => {
+      activeCategory.param
+        ? setQuery(`text=${searchInputText}&category=${activeCategory.param}`)
+        : setQuery(`text=${searchInputText}`);
+    }, 500),
+    [searchInputText, activeCategory.index, activeCategory.param]
+  );
+
+  const categorButtonOnPressed = (index: number, item: ICategoryButton): void => {
+    if (activeCategory?.index === index) {
+      setActiveCategory({ index: undefined, param: undefined });
+      return;
+    }
+    setActiveCategory({ index, param: item.param });
   };
+
   return (
-    <SpinnerView loading={isLoading}>
+    <SpinnerView loading={!isSuccess && isLoading}>
       <View style={styles.container}>
         <Logo />
+        <Text style={styles.header} onPress={() => flatlistRef.current?.scrollToIndex({ index: 0 })}>
+          Browse
+        </Text>
+        <SearchInput placeholder="Search podcast..." onChangeText={(text) => setSearchInputText(text)} />
         <FlatList
+          ref={flatlistRef}
+          data={list}
+          keyExtractor={(item) => item.title}
+          scrollsToTop
           ListHeaderComponent={
             <View>
-              <Text style={styles.header}>Browse</Text>
-              <Input
-                onChangeText={(text) =>
-                  setQuery((prev) => {
-                    debouncedSearch(text);
-                    return text;
-                  })
-                }
+              <CategorySelectionButtons
+                data={CategoryButtonsListData}
+                renderItem={({ item, index }) => (
+                  <CategoryButton
+                    isActive={activeCategory.index === index}
+                    title={item.title}
+                    onPress={() => categorButtonOnPressed(index, item)}
+                  >
+                    {item.Icon}
+                  </CategoryButton>
+                )}
               />
-              <View style={styles.categoryButtonsWrapper}>
-                <FlatList
-                  data={CategoryButtons}
-                  keyExtractor={(item) => item.id}
-                  renderItem={({ item, index }) => (
-                    <CategoryButton
-                      isActive={categoryIndex === index}
-                      title={item.title}
-                      onPress={() => categorButtonOnPressed(index, item)}
-                    >
-                      {item.Icon}
-                    </CategoryButton>
-                  )}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                />
-                <Text style={styles.listHeader}>Podcast ({list.length})</Text>
-              </View>
+              <Text style={styles.listHeader}>Podcast ({list.length})</Text>
             </View>
           }
-          data={list}
-          keyExtractor={(item, index) => JSON.stringify(index)}
-          scrollsToTop
           renderItem={({ item }) => (
             <ListButton
               title={item.title}
@@ -156,15 +120,10 @@ const styles = StyleSheet.create({
     fontSize: fs(48),
     fontWeight: "bold",
     marginTop: hp(38),
-    marginBottom: hp(32),
+    marginBottom: hp(10),
   },
   listHeader: {
     color: colors.gray1,
     fontSize: fs(16),
-  },
-  categoryButtonsWrapper: {
-    height: hp(173),
-    width: "100%",
-    paddingTop: hp(32),
   },
 });

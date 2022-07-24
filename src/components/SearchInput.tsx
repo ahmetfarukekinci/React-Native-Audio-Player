@@ -1,11 +1,5 @@
 import React, { useRef } from "react";
-import {
-  TextInput,
-  View,
-  TouchableWithoutFeedback,
-  TextInputProps,
-  StyleSheet,
-} from "react-native";
+import { TextInput, View, TouchableWithoutFeedback, TextInputProps, StyleSheet } from "react-native";
 import { fs, wp, hp, colors } from "@styles";
 import { Search } from "@icons";
 const SearchInput: React.FC<TextInputProps> = ({ ...props }) => {
@@ -22,6 +16,7 @@ const SearchInput: React.FC<TextInputProps> = ({ ...props }) => {
           autoCapitalize="none"
           autoCompleteType="off"
           textContentType="none"
+          placeholderTextColor={colors.gray1}
         ></TextInput>
         <Search width={fs(20)} height={hp(20)} />
       </View>
@@ -39,11 +34,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: wp(14),
     paddingVertical: hp(11),
+    opacity: 0.4,
   },
   input: {
     flex: 1,
     color: colors.white,
-    fontSize: fs(14),
+    fontSize: fs(18),
   },
 });
 

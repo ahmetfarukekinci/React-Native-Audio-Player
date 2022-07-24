@@ -1,8 +1,5 @@
 import { StyleSheet } from "react-native";
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP, widthPercentageToDP } from "react-native-responsive-screen";
 import { RFValue } from "react-native-responsive-fontsize";
 
 export const colors = {
@@ -12,6 +9,8 @@ export const colors = {
   darkBlue: "#010304",
   gray1: "#898F97",
   sliderColor: "#3369FF",
+  gray: "gray",
+  activeBlue: "#19232F",
 };
 
 const referenceWidth = 376;
@@ -34,5 +33,4 @@ export const commonStyle = StyleSheet.create({
     alignItems: "center",
   },
 });
-export const fs = (fontSize: number): number =>
-  RFValue(fontSize, referenceHeight);
+export const fs = (fontSize: number): number => RFValue(fontSize, referenceHeight);
